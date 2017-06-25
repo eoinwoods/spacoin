@@ -4,8 +4,8 @@ var SpaCoin = artifacts.require("SpaCoin");
 module.exports = function(exitCallback) {
 	var coin ;
 
-	var CONTRACT_ADDR = "0x16bc4143116ecafed7168bdf4169573982da0a15" ;
-
+	//var CONTRACT_ADDR = "0x16bc4143116ecafed7168bdf4169573982da0a15" ; // testrpc
+	var CONTRACT_ADDR = "0x8fda6f093a66c31b9715801179e5c6871e912669" ; //spatestnet
 	var testuser = web3.eth.accounts[1] ;
 
 	// or SpaCoin.deployed().then(...) to find it
