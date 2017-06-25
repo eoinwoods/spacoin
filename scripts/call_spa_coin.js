@@ -21,4 +21,6 @@ module.exports = function(exitCallback) {
 	}).then(function(result) {
 		console.log("Test user " + testuser + " has " + result.toNumber() + " coins after allocation") ;
 	});
+
+	exitCallback() ;
 }
