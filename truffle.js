@@ -13,7 +13,7 @@ module.exports = {
     live: {
       host: "localhost",
       port: 10545,
-      network_id: "*" // Match any network id
+      network_id: "1" // Match live
     }
   }
 };
