@@ -1,26 +1,26 @@
 pragma solidity ^0.4.0;
 
 contract SpaCoin {
-    int64 constant TOTAL_CIRCULATION = 100000 ;
+    int64 constant TOTAL_UNITS = 100000 ;
     int64 outstanding_coins ;
     address owner ;
     mapping (address => int64) holdings ;
     
-    function SpaCoin() {
-        outstanding_coins = TOTAL_CIRCULATION ;
-        owner = tx.origin ;
+    function SpaCoin() payable {
+        outstanding_coins = TOTAL_UNITS ;
+        owner = msg.sender ;
     }
     
     event CoinAllocation(address holder, int64 number, int64 remaining) ;
     event CoinMovement(address from, address to, int64 v) ;
     event InvalidCoinUsage(string reason) ;
 
-    function getOwner()  returns(address) {
+    function getOwner()  constant returns(address) {
         return owner ;
     }
 
-    function allocate(address newHolder, int64 value)  {
-        if (tx.origin != owner) {
+    function allocate(address newHolder, int64 value)  payable {
+        if (msg.sender != owner) {
             InvalidCoinUsage('Only owner can allocate coins') ;
             return ;
         }
@@ -39,7 +39,7 @@ contract SpaCoin {
     }
     
     function move(address destination, int64 value)  {
-        address source = tx.origin ;
+        address source = msg.sender ;
         if (value <= 0) {
             InvalidCoinUsage('Must move value greater than zero') ;
             return ;
@@ -53,17 +53,17 @@ contract SpaCoin {
         }
     }
     
-    function myBalance()  returns(int64) {
-        return holdings[tx.origin] ;
+    function myBalance() constant returns(int64) {
+        return holdings[msg.sender] ;
     }
     
-    function holderBalance(address holder)  returns(int64) {
-        if (tx.origin != owner) return ;
+    function holderBalance(address holder) constant returns(int64) {
+        if (msg.sender != owner) return ;
         return holdings[holder] ;
     }
 
-    function outstandingValue()  returns(int64) {
-        if (tx.origin != owner) return ;
+    function outstandingValue() constant returns(int64) {
+        if (msg.sender != owner) return ;
         return outstanding_coins ;
     }
     
