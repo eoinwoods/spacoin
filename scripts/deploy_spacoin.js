@@ -41,7 +41,7 @@ const contractInstance = contract.new({
     data: '0x' + bytecode,
     from: web3.eth.accounts[0],
     gas: 600000
-    ,gasPrice: 5000000000
+    ,gasPrice: 5000000000 // 5 GWei
     }
 );
 // Transaction has can be used with eth.getTransaction()
