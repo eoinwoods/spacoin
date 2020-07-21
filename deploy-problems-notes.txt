@@ -1,0 +1,67 @@
+Ropsten Spacoin ID: 0x3cb27a7c7a8223ac84eff580a499f8eac0ec188f
+
+
+Livenet:
+========
+
+Attempts evening of 2nd July ...
+
+> eth.getBalance(eth.accounts[0])
+29397158000000000
+> web3.fromWei(eth.getBalance(eth.accounts[0]))
+0.029397158
+
+gas: 0x47e7c4 == 4712388
+gasPrice: 0x174876e800 == 100000000000
+
+Total == 471238800000000000
+
+> web3.fromWei(471238800000000000)
+"0.4712388"
+
+But ... this is obviously too large as 0.47 ether is ~$133 on 2nd July so much too large.
+
+http://ethgasstation.info/ states that current gas price is 21 GWei (21000000000) so 2 orders of magnitude smaller than the default being used.  Set to 25000000000 (0x5d21dba00).  Still same problem "Error: Insufficient funds for gas * price + value".
+
+25,000,000,000 * 4712388 == 117809700000000000
+> web3.fromWei(117809700000000000)
+"0.1178097" // so fair enough much more than account has
+
+Problem must be "gas" - need 800,000 (0xC3500) but specifying 4,712,388 in the RPC ()
+
+800000*25000000000 = 20000000000000000
+> web3.fromWei(20000000000000000)
+"0.02" // should be ok
+
+Set "gas" in truffle.js to 800,000 and seemed to deploy:
+  SpaCoin: 0x601e501a15bedb1ec3cf0115ecd385f7c95c8cfd
+Saving successful migration to network...
+
+(Previous addres displayed was 0x0540b7d02ff888074df79d36c9785d7050b89bc1 - not sure what this was)
+
+Second unexpected transaction failed due to lack of ether:
+> {
+   >   "jsonrpc": "2.0",
+   >   "id": 305,
+   >   "method": "eth_sendTransaction",
+   >   "params": [
+   >     {
+   >       "from": "0x18e924432be86728635beb816254a0491ac45e3a",
+   >       "gas": "0xc3500",
+   >       "gasPrice": "0x5d21dba00",
+   >       "to": "0x0540b7d02ff888074df79d36c9785d7050b89bc1",
+   >       "data": "0xfdacd5760000000000000000000000000000000000000000000000000000000000000002"
+   >     }
+   >   ]
+   > }
+
+> listAllBalances()
+  eth.accounts[0]: 	0x18e924432be86728635beb816254a0491ac45e3a 	balance: 0.011706933 ether
+  Total balance: 0.011706933 ether
+
+Thus first deployment did work and sure enough "ate" 0.017690225 ether - about $5 !
+
+
+
+
+
